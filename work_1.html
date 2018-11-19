@@ -1,0 +1,99 @@
+<html>
+    <head>
+        <title>Work-1</title>
+        <style>
+            .main{
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+                display: block;
+                min-width: 20rem;
+            }
+            .main div{
+                border: 1px #cccccc solid;
+                min-height: 2rem;
+                width: 20rem;
+                margin: 0.2rem 0rem;
+                padding: 0.25rem;
+                line-height: 2rem;
+            }
+            input[type="text"]{
+                width: 17rem;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+                <div>
+                    <input type="text" id="value" value="(A+C)*B">
+                    <input type="button" id="onClick" value="轉化">
+                </div>
+                <div >
+                    Postfix:<span id="Postfix"></span>
+                </div>
+                <div >
+                    Prefix:<span id="Prefix"></span>
+                </div>
+
+        </div>
+        <script>
+        (()=>{
+
+        Array.prototype.getLast = function() {
+            return this[this.length - 1];
+        };
+
+        Array.prototype.isEmpty = function() {
+            return this.length == 0;
+        };
+
+        let priority = (c)=> {
+            return c === '+' || c === '-' ? 1 : c === '*' || c === '/' ? 2 : 0;
+        }
+
+        let toPostfix = (infix, isPost)  => {
+            isPost = isPost === undefined ? true : false;
+            var expr = isPost ? infix.split('') : infix.split('').reverse();
+            var stack = [];
+            var output = [];
+            var toStack = isPost ? '(' : ')';
+            var toOutput = isPost ? ')' : '(';
+            expr.forEach(function(c) {
+                if(c === toStack) { stack.push(c); }
+                else if('+-*/'.indexOf(c) !== -1) {
+                    while(!stack.isEmpty() && 
+                        priority(stack.getLast()) >= priority(c)) {
+                        output.push(stack.pop());
+                    }
+                    stack.push(c);
+                }
+                else if(c === toOutput) {
+                    while(stack.getLast() !== toStack) {
+                        output.push(stack.pop());
+                    }
+                    stack.pop();
+                }
+                else { output.push(c); }
+            });
+            
+            while(!stack.isEmpty()) {
+                 output.push(stack.pop());
+            };
+            
+            return isPost ? output.join('') : output.reverse().join('');
+        }
+
+        let toPrefix = (infix) =>{
+            return toPostfix(infix, false);
+        }
+        let onClick = () =>{
+           let val =  document.getElementById('value').value;
+           document.getElementById('Postfix').innerHTML =  toPostfix(val);
+           document.getElementById('Prefix').innerHTML = toPrefix(val);
+        }
+            document.getElementById('onClick').onclick  = onClick;
+        })()
+        
+        </script>
+    </body>
+</html>

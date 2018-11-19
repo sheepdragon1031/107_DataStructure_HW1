@@ -1,0 +1,81 @@
+<html>
+    <head>
+        <title>Work-2</title>
+        <style>
+            .main{
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+                display: block;
+                min-width: 20rem;
+            }
+            .main div{
+                border: 1px #cccccc solid;
+                min-height: 2rem;
+                margin: 0.2rem 0rem;
+                padding: 0.25rem;
+                line-height: 2rem;
+                min-width: 18rem;
+            }
+            input[type="text"]{
+                width: 17rem;
+            }
+            #input input{
+                width: 3rem;
+                margin: 0 0.2rem;
+            }
+            .devInput , .devOutput{
+                border: none !important;
+            }
+            .span{
+                width: 3rem;
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main" id="main">
+                <div>
+                    <input type="number" value="3" id="number">
+                    <Input type="button" value="表格" id="grid">
+                    <Input type="button" value="輸出" id="ogrid">
+                </div>
+                <div id="input">
+                   
+                </div>
+                <div id="output">
+                    
+                </div>
+
+        </div>
+        <script>
+        (()=>{
+            
+            let grid = () =>{
+                let max = document.getElementById('number').value;
+                document.getElementById('main').style.width = 3*max + 1.5 + 'rem';
+                document.getElementById('input').innerHTML = '';
+                for(let i = 0 ; i < max ; i++){
+                    document.getElementById('input').innerHTML += `<div class="devInput" id="devInput_${i}"></div>`;
+                    for(let j = 0 ; j < max ; j++){
+                    document.getElementById(`devInput_${i}`).innerHTML += `<input type="text" value="" id="grid[${i}][${j}]">`;
+                    }
+                }
+            }
+            let output = ()=>{
+                let max = document.getElementById('number').value;
+                document.getElementById('output').innerHTML = '';
+                for(let i = 0 ; i < max ; i++){
+                    document.getElementById('output').innerHTML += `<div class="devOutput" id="devOutput_${i}"></div>`;
+                    for(let j = 0 ; j < max ; j++){
+                    let value = document.getElementById(`grid[${j}][${i}]`).value;
+                    document.getElementById(`devOutput_${i}`).innerHTML += `<span class="span">${value}</span>`;
+                    }
+                }
+            }
+            document.getElementById('grid').onclick = grid;
+            document.getElementById('ogrid').onclick = output;
+        })()
+        </script>
+    </body>
+</html>

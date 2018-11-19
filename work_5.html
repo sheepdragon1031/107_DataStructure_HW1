@@ -1,0 +1,111 @@
+<html>
+    <head>
+        <title>Work-5</title>
+        <style>
+            .main{
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+                display: block;
+                min-width: 40rem;
+                width: 40rem;
+            }
+            .main div{
+                border: 1px #cccccc solid;
+                min-height: 2rem;
+                margin: 0.2rem 0rem;
+                padding: 0.25rem;
+                line-height: 2rem;
+            }
+            textarea,input{
+                display: block;
+                max-width: 100%;
+                width: 100%;
+                margin: .5rem 0;
+                border: none;
+            }
+            td{
+                width: 25%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+                <div>
+                    <textarea name="" id="input" cols="30" rows="10">abaaabbcaabdccaabbbbbcaddcabcadbcabbcbabcbadbcbabdbcadbbabdbacaaccabdbacbada</textarea>
+                    <input type="button" id="run" value="轉化">
+                </div>
+                <div >
+                    <input type="text" id="search" value="abc"/>
+                </div>
+                <div id="output">
+                    <table>
+                        <thead>
+                            <th>
+                                <td>index</td>
+                                <td>pattern</td>
+                                <td>failure</td>
+                                <td>list</td>
+                            </th>
+                        </thead>
+                        <tbody id="toutput"></tbody>
+                    </table>
+                </div>
+
+        </div>
+        <script>
+            (()=>{
+                let run = () =>{
+                let input = document.getElementById('input');
+                let search = document.getElementById('search');
+                let toutput = document.getElementById('toutput');
+                let istart = 0;
+                let ilength = 0;
+                let text = '';
+                let ilimit = 0;
+                let il = input.textLength;
+                let svl = search.value.length;
+                toutput.innerHTML = '';
+                while( istart <= input.textLength){
+                    let fuck = 0;
+                    if(input.value[istart] == search.value[ilength]){
+                        text += input.value[istart];
+                        istart++;
+                        ilength++;
+                        fuck = 1;
+                    }
+                    else{
+                        text = '';
+                        istart++;
+                        ilength = 0;
+                        if(istart == 1){
+                            fuck = -1;
+                        }
+                    }
+                   
+                    let icheck = istart + ilength;
+                    
+                    log(ilimit, input.value[ilimit], fuck,text);
+                    if(icheck > ( il + svl )){
+                        break;
+                    }
+                    if(ilimit > 1000){
+                        break;
+                    }
+                    ilimit++;
+                }
+            }
+            let log = (index, pattern, failure, text) =>{
+                let td = `<td>${ index}</td>`;
+                let td1 = `<td>${ pattern}</td>`;
+                let td2 = `<td>${ failure}</td>`;
+                let td3 = `<td>${ text}</td>`;
+                let html = `<th>${ td}${ td1}${ td2}${ td3}</th>`;
+                toutput.innerHTML += html;
+            }
+            document.getElementById('run').onclick = run;
+            })()
+            
+        </script>
+    </body>
+</html>
